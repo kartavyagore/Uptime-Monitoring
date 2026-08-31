@@ -2,6 +2,7 @@ package com.uptimemonitor.api.config;
 
 import com.uptimemonitor.api.auth.CustomOidcUserService;
 import com.uptimemonitor.api.auth.OAuth2AuthenticationSuccessHandler;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -65,10 +66,18 @@ public class SecurityConfig {
                 .successHandler(successHandler)
             )
 
-            // Logout
+            // Logout — invalidate session, clear cookies, and redirect browser to frontend
             .logout(logout -> logout
-                .logoutUrl("/api/auth/logout")
-                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
+                .logoutRequestMatcher(new AntPathRequestMatcher("/api/auth/logout"))
+                .logoutSuccessHandler((request, response, authentication) -> {
+                    String accept = request.getHeader("Accept");
+                    String xRequestedWith = request.getHeader("X-Requested-With");
+                    if ("XMLHttpRequest".equals(xRequestedWith) || (accept != null && accept.contains("application/json"))) {
+                        response.setStatus(HttpServletResponse.SC_OK);
+                    } else {
+                        response.sendRedirect(frontendUrl);
+                    }
+                })
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
             )

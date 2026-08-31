@@ -1,24 +1,19 @@
+# 1. Setup Environment
 cp .env.example .env
 
-# ----- Google OAuth 2.0 -----
-GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET=your-client-secret
+# Configure Google OAuth 2.0 credentials in .env:
+# GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
+# GOOGLE_CLIENT_SECRET=your-client-secret
 
-docker-compose up -d postgres mailpit
-// localhost:5432 psql and localhost:1025 SMTP mailpit and localhost:8025 email web ui
+# 2. Run Entire Full Stack (Frontend + Backend + Database + Mail)
+docker compose up -d --build
 
-cd services
-mvn clean install -DskipTests
+# ── Service Endpoints ──────────────────────────────────────────────
+# • Frontend:       http://localhost:3000
+# • API Service:    http://localhost:8080
+# • Swagger Docs:   http://localhost:8080/swagger-ui.html
+# • Monitor Worker: http://localhost:8083/actuator/health
+# • Mailpit UI:     http://localhost:8025
+# • Mailpit SMTP:   localhost:1025
+# • PostgreSQL:     localhost:5432
 
-cd services/api-service
-mvn spring-boot:run
-// localhost:8080 api service
-
-cd services/monitor-worker
-mvn spring-boot:run
-// localhost:8083 monitor worker service
-
-cd frontend
-npm install
-npm run dev
-// localhost:3000 frontend

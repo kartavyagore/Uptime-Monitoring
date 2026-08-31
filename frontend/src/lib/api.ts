@@ -48,6 +48,7 @@ export interface User {
 export const auth = {
   me: () => fetchApi<User>('/api/auth/me'),
   loginUrl: () => `${API_BASE}/oauth2/authorization/google`,
+  logout: () => fetchApi<void>('/api/auth/logout', { method: 'POST' }),
   logoutUrl: () => `${API_BASE}/api/auth/logout`,
 };
 

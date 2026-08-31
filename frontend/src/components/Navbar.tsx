@@ -8,7 +8,7 @@ import { Activity, LayoutDashboard, LogOut, Settings, ShieldCheck, ArrowRight, U
 import { useState } from 'react';
 
 export default function Navbar() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const pathname = usePathname();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -125,13 +125,16 @@ export default function Navbar() {
 
                   <div className="border-t border-slate-200 my-1" />
 
-                  <a
-                    href={auth.logoutUrl()}
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors"
+                  <button
+                    onClick={() => {
+                      setDropdownOpen(false);
+                      logout();
+                    }}
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors w-full text-left cursor-pointer"
                   >
                     <LogOut className="w-4 h-4" />
                     Sign Out
-                  </a>
+                  </button>
                 </div>
               )}
             </div>

@@ -36,9 +36,9 @@ Browser → Next.js Frontend (3000)
 - Docker & Docker Compose
 - Google OAuth 2.0 credentials ([create here](https://console.cloud.google.com/apis/credentials))
 
-## Quick Start
+## Quick Start (Docker Compose — Recommended)
 
-### 1. Clone & Configure
+### 1. Configure Environment
 
 ```bash
 cp .env.example .env
@@ -46,49 +46,56 @@ cp .env.example .env
 # Authorized redirect URI: http://localhost:8080/login/oauth2/code/google
 ```
 
-### 2. Start Infrastructure
+### 2. Start Full Stack
 
 ```bash
-docker-compose up -d
-# PostgreSQL: localhost:5432
-# Mailpit Web UI: http://localhost:8025
-# Mailpit SMTP: localhost:1025
+docker compose up -d --build
 ```
 
-### 3. Start Backend (API Service)
+This starts all 5 containers with automatic dependency ordering, health checks, and database migrations:
+- **Frontend**: http://localhost:3000
+- **API Service**: http://localhost:8080 (Swagger: http://localhost:8080/swagger-ui.html)
+- **Monitor Worker**: http://localhost:8083 (Actuator: http://localhost:8083/actuator/health)
+- **Mailpit Web UI**: http://localhost:8025
+- **Mailpit SMTP**: localhost:1025
+- **PostgreSQL**: localhost:5432
 
-```bash
-cd services
-mvnw spring-boot:run -pl api-service
-# API: http://localhost:8080
-# Swagger UI: http://localhost:8080/swagger-ui.html
-```
-
-### 4. Start Backend (Monitor Worker)
-
-```bash
-cd services
-mvnw spring-boot:run -pl monitor-worker
-# Worker: http://localhost:8083
-```
-
-### 5. Start Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-# Frontend: http://localhost:3000
-```
-
-### 6. Use the Application
+### 3. Use the Application
 
 1. Open http://localhost:3000
 2. Click "Continue with Google"
 3. Sign in with your Google account
 4. Create a monitor (up to 3)
 5. Watch health checks run automatically
-6. Check Mailpit (http://localhost:8025) for email notifications
+6. Check Mailpit (http://localhost:8025) for email alerts
+
+---
+
+## Alternative: Manual Local Development
+
+### 1. Start Infrastructure Only
+```bash
+docker compose up -d postgres mailpit
+```
+
+### 2. Start Backend (API Service)
+```bash
+cd services
+mvnw spring-boot:run -pl api-service
+```
+
+### 3. Start Backend (Monitor Worker)
+```bash
+cd services
+mvnw spring-boot:run -pl monitor-worker
+```
+
+### 4. Start Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
 ## Build & Test
 

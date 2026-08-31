@@ -3,7 +3,6 @@ package com.uptimemonitor.api.service;
 import com.uptimemonitor.common.entity.User;
 import com.uptimemonitor.common.enums.UserStatus;
 import com.uptimemonitor.common.repository.UserRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -1,20 +1,19 @@
-FROM eclipse-temurin:21-jdk-alpine AS build
+FROM maven:3.9-eclipse-temurin-21-alpine AS build
 WORKDIR /build
 
-# Copy parent and common module first for better layer caching
+# Copy parent and module POMs first for dependency caching
 COPY pom.xml ./pom.xml
 COPY common/pom.xml ./common/pom.xml
-COPY common/src ./common/src
 COPY api-service/pom.xml ./api-service/pom.xml
 COPY monitor-worker/pom.xml ./monitor-worker/pom.xml
 
 # Download dependencies (cached layer)
-RUN apk add --no-cache maven && \
-    mvn dependency:go-offline -pl api-service -am -q || true
+RUN mvn dependency:go-offline -B -pl api-service -am || true
 
-# Copy source and build
+# Copy source code and build
+COPY common/src ./common/src
 COPY api-service/src ./api-service/src
-RUN mvn package -pl api-service -am -DskipTests -q
+RUN mvn package -B -pl api-service -am -DskipTests
 
 # ── Runtime ──────────────────────────────────────────────
 FROM eclipse-temurin:21-jre-alpine

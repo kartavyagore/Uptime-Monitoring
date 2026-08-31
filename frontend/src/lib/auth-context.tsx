@@ -8,6 +8,7 @@ interface AuthContextType {
   loading: boolean;
   error: string | null;
   refreshUser: () => Promise<void>;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -15,6 +16,7 @@ const AuthContext = createContext<AuthContextType>({
   loading: true,
   error: null,
   refreshUser: async () => {},
+  logout: async () => {},
 });
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -35,12 +37,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const logout = async () => {
+    try {
+      await auth.logout();
+    } catch {
+      // Fallback: continue clearing state
+    } finally {
+      setUser(null);
+      window.location.href = '/';
+    }
+  };
+
   useEffect(() => {
     refreshUser();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, error, refreshUser }}>
+    <AuthContext.Provider value={{ user, loading, error, refreshUser, logout }}>
       {children}
     </AuthContext.Provider>
   );

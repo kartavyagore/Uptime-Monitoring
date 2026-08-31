@@ -9,7 +9,7 @@ import { ShieldCheck, User, Mail, LogOut, CheckCircle2, Lock } from 'lucide-reac
 import Link from 'next/link';
 
 export default function SettingsPage() {
-  const { user, loading } = useAuth();
+  const { user, loading, logout } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -121,13 +121,13 @@ export default function SettingsPage() {
               Invalidate your active session cookie and log out of this device.
             </p>
           </div>
-          <a
-            href={auth.logoutUrl()}
-            className="btn-ghost-danger text-xs py-2.5 px-5 font-bold gap-2 inline-flex items-center"
+          <button
+            onClick={() => logout()}
+            className="btn-ghost-danger text-xs py-2.5 px-5 font-bold gap-2 inline-flex items-center cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
             <span>Sign Out</span>
-          </a>
+          </button>
         </div>
       </main>
     </div>
