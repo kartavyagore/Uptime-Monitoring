@@ -43,6 +43,9 @@ services:
       MAIL_FROM: ${MAIL_FROM:-kartavyagore0@gmail.com}
       MAIL_SMTP_AUTH: ${MAIL_SMTP_AUTH:-true}
       MAIL_SMTP_STARTTLS_ENABLE: ${MAIL_SMTP_STARTTLS_ENABLE:-true}
+      GOOGLE_REDIRECT_URI: ${GOOGLE_REDIRECT_URI:-}
+      SESSION_COOKIE_SAMESITE: ${SESSION_COOKIE_SAMESITE:-lax}
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
     depends_on:
       postgres:
         condition: service_healthy
