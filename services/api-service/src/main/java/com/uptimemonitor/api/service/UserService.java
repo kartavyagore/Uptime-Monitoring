@@ -17,9 +17,11 @@ public class UserService {
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
+    private final EmailService emailService;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, EmailService emailService) {
         this.userRepository = userRepository;
+        this.emailService = emailService;
     }
 
     /**
@@ -37,7 +39,11 @@ public class UserService {
             user.setName(name);
             user.setPictureUrl(pictureUrl);
             log.info("Updated existing user: id={}, email={}", user.getId(), email);
-            return userRepository.save(user);
+            User saved = userRepository.save(user);
+
+            // Send sign-in notification email asynchronously
+            emailService.sendLoginNotificationEmail(saved);
+            return saved;
         }
 
         User newUser = User.builder()
@@ -50,6 +56,9 @@ public class UserService {
 
         User saved = userRepository.save(newUser);
         log.info("Created new user: id={}, email={}", saved.getId(), email);
+
+        // Send welcome email asynchronously upon client signup
+        emailService.sendWelcomeEmail(saved);
         return saved;
     }
 

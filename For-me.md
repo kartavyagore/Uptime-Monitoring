@@ -13,7 +13,6 @@ docker compose up -d --build
 # • API Service:    http://localhost:8080
 # • Swagger Docs:   http://localhost:8080/swagger-ui.html
 # • Monitor Worker: http://localhost:8083/actuator/health
-# • Mailpit UI:     http://localhost:8025
-# • Mailpit SMTP:   localhost:1025
+# • Gmail SMTP:     smtp.gmail.com:587 (Real email delivery)
 # • PostgreSQL:     localhost:5432
 

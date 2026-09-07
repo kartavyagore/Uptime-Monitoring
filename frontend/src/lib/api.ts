@@ -50,6 +50,7 @@ export const auth = {
   loginUrl: () => `${API_BASE}/oauth2/authorization/google`,
   logout: () => fetchApi<void>('/api/auth/logout', { method: 'POST' }),
   logoutUrl: () => `${API_BASE}/api/auth/logout`,
+  sendTestEmail: () => fetchApi<{ status: string; message: string }>('/api/auth/test-email', { method: 'POST' }),
 };
 
 // ── Monitors ────────────────────────────────────────────

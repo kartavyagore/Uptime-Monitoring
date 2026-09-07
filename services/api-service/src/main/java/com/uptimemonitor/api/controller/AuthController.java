@@ -1,6 +1,7 @@
 package com.uptimemonitor.api.controller;
 
 import com.uptimemonitor.api.dto.UserResponse;
+import com.uptimemonitor.api.service.EmailService;
 import com.uptimemonitor.api.service.UserService;
 import com.uptimemonitor.common.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +12,8 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -18,9 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final UserService userService;
+    private final EmailService emailService;
 
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService, EmailService emailService) {
         this.userService = userService;
+        this.emailService = emailService;
     }
 
     /**
@@ -39,6 +44,34 @@ public class AuthController {
                 .orElseThrow(() -> new RuntimeException("User not found for subject: " + googleSubject));
 
         return ResponseEntity.ok(UserResponse.from(user));
+    }
+
+    /**
+     * Sends a test verification email via Gmail SMTP to the authenticated user.
+     */
+    @PostMapping("/test-email")
+    @Operation(summary = "Send test verification email", description = "Dispatches a test verification email to confirm Gmail SMTP connectivity")
+    public ResponseEntity<Map<String, String>> sendTestEmail(@AuthenticationPrincipal OidcUser oidcUser) {
+        if (oidcUser == null) {
+            return ResponseEntity.status(401).build();
+        }
+
+        String googleSubject = oidcUser.getSubject();
+        User user = userService.findByGoogleSubject(googleSubject)
+                .orElseThrow(() -> new RuntimeException("User not found for subject: " + googleSubject));
+
+        try {
+            emailService.sendTestEmail(user);
+            return ResponseEntity.ok(Map.of(
+                    "status", "success",
+                    "message", "Test email successfully sent to " + user.getEmail()
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of(
+                    "status", "error",
+                    "message", "Failed to dispatch test email: " + e.getMessage()
+            ));
+        }
     }
 
     /**

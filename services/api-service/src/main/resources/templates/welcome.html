@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Welcome to UptimeWatch</title>
+</head>
+<body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background-color:#0f172a;color:#334155;">
+<table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:30px auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,0.15);">
+    <!-- Brand Header -->
+    <tr>
+        <td style="background:linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);padding:40px 32px;text-align:center;">
+            <div style="display:inline-block;width:52px;height:52px;line-height:52px;background:rgba(255,255,255,0.15);border-radius:14px;margin-bottom:16px;font-size:28px;">
+                ⚡
+            </div>
+            <h1 style="color:#ffffff;margin:0 0 8px 0;font-size:26px;font-weight:800;letter-spacing:-0.5px;">
+                Welcome to UptimeWatch
+            </h1>
+            <p style="color:#bfdbfe;margin:0;font-size:15px;font-weight:400;">
+                High-precision website &amp; API availability monitoring
+            </p>
+        </td>
+    </tr>
+
+    <!-- Main Body Content -->
+    <tr>
+        <td style="padding:36px 32px 24px 32px;">
+            <p style="font-size:16px;line-height:1.6;color:#1e293b;margin:0 0 16px 0;">
+                Hello <strong th:text="${userName}" style="color:#2563eb;">there</strong>,
+            </p>
+            <p style="font-size:15px;line-height:1.6;color:#475569;margin:0 0 24px 0;">
+                Thank you for signing up for <strong>UptimeWatch</strong>! Your account is now active and ready to keep watch over your mission-critical applications, APIs, and websites.
+            </p>
+
+            <!-- Feature Highlights Card -->
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:20px;margin-bottom:28px;">
+                <h3 style="margin:0 0 14px 0;font-size:14px;color:#0f172a;text-transform:uppercase;letter-spacing:0.5px;font-weight:700;">
+                    What you get with your account:
+                </h3>
+                <table width="100%" cellpadding="6" cellspacing="0">
+                    <tr>
+                        <td style="vertical-align:top;width:24px;font-size:16px;">⏱️</td>
+                        <td style="font-size:14px;color:#334155;line-height:1.5;">
+                            <strong>Automated 15-second Probes</strong> — Continuous HTTP/HTTPS health checks with millisecond latency metrics.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:top;width:24px;font-size:16px;">🔔</td>
+                        <td style="font-size:14px;color:#334155;line-height:1.5;">
+                            <strong>Real-time Gmail Alerts</strong> — Instant notifications the moment any endpoint fails or recovers.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:top;width:24px;font-size:16px;">🛡️</td>
+                        <td style="font-size:14px;color:#334155;line-height:1.5;">
+                            <strong>SSRF Guard &amp; Zero Passwords</strong> — Enterprise security powered by Google OpenID Connect.
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Call to Action -->
+            <div style="text-align:center;margin:32px 0 20px 0;">
+                <a th:href="${dashboardUrl}" style="display:inline-block;background:#2563eb;color:#ffffff;padding:14px 36px;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;box-shadow:0 4px 12px rgba(37,99,235,0.3);">
+                    Go to Your Dashboard →
+                </a>
+            </div>
+
+            <p style="font-size:13px;line-height:1.6;color:#64748b;text-align:center;margin:0;">
+                Need help getting started? Add your first monitor URL in the dashboard to begin receiving alerts.
+            </p>
+        </td>
+    </tr>
+
+    <!-- Footer -->
+    <tr>
+        <td style="background:#f1f5f9;padding:20px 32px;text-align:center;border-top:1px solid #e2e8f0;font-size:12px;color:#94a3b8;">
+            <p style="margin:0 0 6px 0;">
+                Sent to <span th:text="${userEmail}" style="color:#64748b;font-weight:600;">user@example.com</span>
+            </p>
+            <p style="margin:0;">
+                &copy; UptimeWatch Monitoring Platform. All rights reserved.
+            </p>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

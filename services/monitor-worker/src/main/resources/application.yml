@@ -33,16 +33,22 @@ spring:
 
   # ── Email / SMTP ───────────────────────────────────────
   mail:
-    host: ${MAIL_HOST:localhost}
-    port: ${MAIL_PORT:1025}
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
     username: ${MAIL_USERNAME:}
     password: ${MAIL_PASSWORD:}
     properties:
       mail:
         smtp:
-          auth: false
+          auth: ${MAIL_SMTP_AUTH:true}
           starttls:
-            enable: false
+            enable: ${MAIL_SMTP_STARTTLS_ENABLE:true}
+            required: true
+          ssl:
+            trust: "*"
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
 
   # ── Thymeleaf (email templates) ────────────────────────
   thymeleaf:
@@ -59,7 +65,7 @@ management:
 # ── Application ────────────────────────────────────────────
 app:
   mail:
-    from: ${MAIL_FROM:noreply@uptimemonitor.dev}
+    from: ${MAIL_FROM:kartavyagore0@gmail.com}
   frontend-url: ${FRONTEND_URL:http://localhost:3000}
   checker:
     connection-timeout-ms: 5000

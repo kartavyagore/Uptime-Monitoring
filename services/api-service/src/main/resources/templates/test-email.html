@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Gmail SMTP Test</title>
+</head>
+<body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background-color:#0f172a;color:#334155;">
+<table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:30px auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,0.15);">
+    <!-- Brand Header -->
+    <tr>
+        <td style="background:linear-gradient(135deg, #059669 0%, #10b981 100%);padding:36px 32px;text-align:center;">
+            <div style="display:inline-block;width:48px;height:48px;line-height:48px;background:rgba(255,255,255,0.2);border-radius:12px;margin-bottom:12px;font-size:24px;">
+                ✅
+            </div>
+            <h1 style="color:#ffffff;margin:0 0 6px 0;font-size:22px;font-weight:700;">
+                Gmail SMTP Connection Verified
+            </h1>
+            <p style="color:#d1fae5;margin:0;font-size:14px;">
+                Your UptimeWatch mailing pipeline is operational
+            </p>
+        </td>
+    </tr>
+
+    <!-- Body Content -->
+    <tr>
+        <td style="padding:32px;">
+            <p style="font-size:15px;line-height:1.6;color:#1e293b;margin:0 0 16px 0;">
+                Hello <strong th:text="${userName}" style="color:#059669;">Admin</strong>,
+            </p>
+            <p style="font-size:14px;line-height:1.6;color:#475569;margin:0 0 20px 0;">
+                This test email confirms that your <strong>Gmail SMTP</strong> configuration is working properly. Automated health probe outage alerts and recovery notices will be reliably delivered to your inbox.
+            </p>
+
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:18px;margin-bottom:24px;">
+                <table width="100%" cellpadding="6" cellspacing="0" style="font-size:13px;">
+                    <tr>
+                        <td style="color:#64748b;width:130px;font-weight:600;">SMTP Host:</td>
+                        <td style="color:#0f172a;font-family:monospace;" th:text="${smtpHost}">smtp.gmail.com:587</td>
+                    </tr>
+                    <tr>
+                        <td style="color:#64748b;font-weight:600;">Sender Address:</td>
+                        <td style="color:#0f172a;font-family:monospace;" th:text="${fromAddress}">kartavyagore0@gmail.com</td>
+                    </tr>
+                    <tr>
+                        <td style="color:#64748b;font-weight:600;">Recipient:</td>
+                        <td style="color:#0f172a;font-family:monospace;" th:text="${userEmail}">user@example.com</td>
+                    </tr>
+                    <tr>
+                        <td style="color:#64748b;font-weight:600;">Verified At:</td>
+                        <td style="color:#0f172a;" th:text="${timestamp}">2026-09-07 10:00:00 UTC</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div style="text-align:center;margin:28px 0 10px 0;">
+                <a th:href="${dashboardUrl}" style="display:inline-block;background:#059669;color:#ffffff;padding:12px 32px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;">
+                    Return to Dashboard →
+                </a>
+            </div>
+        </td>
+    </tr>
+
+    <!-- Footer -->
+    <tr>
+        <td style="background:#f1f5f9;padding:18px 32px;text-align:center;border-top:1px solid #e2e8f0;font-size:12px;color:#94a3b8;">
+            &copy; UptimeWatch Monitoring Platform.
+        </td>
+    </tr>
+</table>
+</body>
+</html>

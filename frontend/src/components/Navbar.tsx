@@ -11,6 +11,7 @@ export default function Navbar() {
   const { user, logout } = useAuth();
   const pathname = usePathname();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [avatarError, setAvatarError] = useState(false);
 
   const isActive = (path: string) => pathname === path;
 
@@ -75,10 +76,12 @@ export default function Navbar() {
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="flex items-center gap-3 p-1 rounded-full bg-slate-100 border border-slate-200 hover:border-slate-300 transition-all focus:outline-none"
               >
-                {user.pictureUrl ? (
+                {user.pictureUrl && !avatarError ? (
                   <img
                     src={user.pictureUrl}
                     alt={user.name || 'User Avatar'}
+                    referrerPolicy="no-referrer"
+                    onError={() => setAvatarError(true)}
                     className="w-8 h-8 rounded-full border border-blue-500/40 object-cover"
                   />
                 ) : (

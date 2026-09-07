@@ -52,6 +52,30 @@ spring:
   session:
     timeout: 7200  # 2 hours
 
+  # ── Email / SMTP ───────────────────────────────────────
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: ${MAIL_SMTP_AUTH:true}
+          starttls:
+            enable: ${MAIL_SMTP_STARTTLS_ENABLE:true}
+            required: true
+          ssl:
+            trust: "*"
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+  # ── Thymeleaf (email templates) ────────────────────────
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+
 # ── Actuator ───────────────────────────────────────────────
 management:
   endpoints:
@@ -73,6 +97,8 @@ springdoc:
 # ── Application ────────────────────────────────────────────
 app:
   frontend-url: ${FRONTEND_URL:http://localhost:3000}
+  mail:
+    from: ${MAIL_FROM:kartavyagore0@gmail.com}
   monitor:
     max-per-user: 3
 

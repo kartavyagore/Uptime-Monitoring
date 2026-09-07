@@ -18,6 +18,7 @@ const mono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "UptimeWatch — Production Website & API Health Monitoring",
   description: "Real-time uptime monitoring, millisecond latency metrics, SSL verification, and instant email alerting with zero false alarms.",
+  referrer: "no-referrer",
 };
 
 export default function RootLayout({

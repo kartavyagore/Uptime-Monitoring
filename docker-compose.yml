@@ -18,20 +18,6 @@ services:
       retries: 5
     restart: unless-stopped
 
-  # ── Mailpit (local email testing) ──────────────────────
-  # Web UI:  http://localhost:8025
-  # SMTP:    localhost:1025
-  mailpit:
-    image: axllent/mailpit:latest
-    container_name: uptimemonitor-mailpit
-    ports:
-      - "1025:1025"   # SMTP
-      - "8025:8025"   # Web UI
-    environment:
-      MP_SMTP_AUTH_ACCEPT_ANY: 1
-      MP_SMTP_AUTH_ALLOW_INSECURE: 1
-    restart: unless-stopped
-
   # ── API Service (Spring Boot) ──────────────────────────
   api-service:
     build:
@@ -50,6 +36,13 @@ services:
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-placeholder}
       FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
       API_SERVICE_URL: ${API_SERVICE_URL:-http://localhost:8080}
+      MAIL_HOST: ${MAIL_HOST:-smtp.gmail.com}
+      MAIL_PORT: ${MAIL_PORT:-587}
+      MAIL_USERNAME: ${MAIL_USERNAME:-}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      MAIL_FROM: ${MAIL_FROM:-kartavyagore0@gmail.com}
+      MAIL_SMTP_AUTH: ${MAIL_SMTP_AUTH:-true}
+      MAIL_SMTP_STARTTLS_ENABLE: ${MAIL_SMTP_STARTTLS_ENABLE:-true}
     depends_on:
       postgres:
         condition: service_healthy
@@ -75,19 +68,19 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-uptimemonitor}
       POSTGRES_USER: ${POSTGRES_USER:-uptimemonitor}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-uptimemonitor}
-      MAIL_HOST: mailpit
-      MAIL_PORT: 1025
+      MAIL_HOST: ${MAIL_HOST:-smtp.gmail.com}
+      MAIL_PORT: ${MAIL_PORT:-587}
       MAIL_USERNAME: ${MAIL_USERNAME:-}
       MAIL_PASSWORD: ${MAIL_PASSWORD:-}
-      MAIL_FROM: ${MAIL_FROM:-noreply@uptimemonitor.dev}
+      MAIL_FROM: ${MAIL_FROM:-kartavyagore0@gmail.com}
+      MAIL_SMTP_AUTH: ${MAIL_SMTP_AUTH:-true}
+      MAIL_SMTP_STARTTLS_ENABLE: ${MAIL_SMTP_STARTTLS_ENABLE:-true}
       FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
     depends_on:
       postgres:
         condition: service_healthy
       api-service:
         condition: service_healthy
-      mailpit:
-        condition: service_started
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:8083/actuator/health || exit 1"]
       interval: 10s

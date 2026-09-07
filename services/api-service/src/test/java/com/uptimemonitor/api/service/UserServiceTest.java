@@ -22,6 +22,9 @@ class UserServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private EmailService emailService;
+
     @InjectMocks
     private UserService userService;
 
@@ -47,6 +50,7 @@ class UserServiceTest {
         assertEquals(NAME, user.getName());
         assertEquals(UserStatus.ACTIVE, user.getStatus());
         verify(userRepository).save(any(User.class));
+        verify(emailService).sendWelcomeEmail(any(User.class));
     }
 
     @Test
@@ -67,6 +71,7 @@ class UserServiceTest {
         assertEquals(EMAIL, user.getEmail()); // Updated
         assertEquals(NAME, user.getName()); // Updated
         verify(userRepository).save(existing);
+        verify(emailService).sendLoginNotificationEmail(existing);
     }
 
     @Test
